@@ -35,4 +35,8 @@ public class SellerController {
     public String deleteById(int id){
        return sellerService.deleteSellerById(id);
     }
+    @GetMapping("/getbyage")
+    public List<SellerResponseDto> getByAge(@RequestParam("age") int age){
+        return sellerService.findByAge(age);
+    }
 }

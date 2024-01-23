@@ -1,5 +1,7 @@
 package com.Bazaar.Spring_Bazaar.ResponseDTO;
 
+
+import com.Bazaar.Spring_Bazaar.Enum.ProductStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,10 +11,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SellerResponseDto {
+public class ProductResponseDto {
 
     private String name;
-    private String mobNo;
-    private String email;
-
+    private int price;
+    private int quantity;
+    private ProductStatus productStatus;
 }

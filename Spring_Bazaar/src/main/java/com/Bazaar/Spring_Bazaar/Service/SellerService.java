@@ -1,6 +1,6 @@
 package com.Bazaar.Spring_Bazaar.Service;
 
-import com.Bazaar.Spring_Bazaar.Converter.SellerConverter;
+import com.Bazaar.Spring_Bazaar.Convertor.SellerConvertor;
 import com.Bazaar.Spring_Bazaar.Model.Seller;
 import com.Bazaar.Spring_Bazaar.Repository.SellerRepository;
 import com.Bazaar.Spring_Bazaar.RequestDTO.SellerRequestDto;
@@ -18,7 +18,7 @@ public class SellerService {
     SellerRepository sellerRepository;
     public String addSeller(SellerRequestDto sellerRequestDto)
     {
-        Seller seller = SellerConverter.SellerRequestDtoToSeller(sellerRequestDto);
+        Seller seller = SellerConvertor.SellerRequestDtoToSeller(sellerRequestDto);
 
         sellerRepository.save(seller);
 
@@ -31,7 +31,7 @@ public class SellerService {
         List<SellerResponseDto> sellerResponseDtoList = new ArrayList<>();
         for(Seller s: sellers)
         {
-            SellerResponseDto sellerResponseDto = SellerConverter.sellerToSellerResponseDto(s);
+            SellerResponseDto sellerResponseDto = SellerConvertor.sellerToSellerResponseDto(s);
 
             sellerResponseDtoList.add(sellerResponseDto);
         }
@@ -42,11 +42,24 @@ public class SellerService {
 
        Seller seller= sellerRepository.findByPanNo(panNo);
 
-       return SellerConverter.sellerToSellerResponseDto(seller);
+       return SellerConvertor.sellerToSellerResponseDto(seller);
     }
     public String deleteSellerById(int id)
     {
         sellerRepository.deleteById(id);
         return "Seller Deleted Successfully !!";
+    }
+    public List<SellerResponseDto> findByAge(int age){
+        List<Seller> sellers = sellerRepository.findByAge(age);
+
+        List<SellerResponseDto> sellerResponseDtoList = new ArrayList<>();
+        for(Seller s: sellers)
+        {
+            SellerResponseDto sellerResponseDto = SellerConvertor.sellerToSellerResponseDto(s);
+
+            sellerResponseDtoList.add(sellerResponseDto);
+        }
+        return sellerResponseDtoList;
+
     }
 }

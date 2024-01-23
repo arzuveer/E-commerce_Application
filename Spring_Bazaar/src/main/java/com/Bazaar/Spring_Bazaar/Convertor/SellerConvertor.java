@@ -1,4 +1,4 @@
-package com.Bazaar.Spring_Bazaar.Converter;
+package com.Bazaar.Spring_Bazaar.Convertor;
 
 
 import com.Bazaar.Spring_Bazaar.Model.Seller;
@@ -7,7 +7,7 @@ import com.Bazaar.Spring_Bazaar.ResponseDTO.SellerResponseDto;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
-public class SellerConverter {
+public class SellerConvertor {
 
     // all func will be static here no parameters no objects
 
@@ -25,7 +25,7 @@ public class SellerConverter {
     {
         return SellerResponseDto.builder()
                 .name(seller.getName())
-                .monNo(seller.getMobNo())
+                .mobNo(seller.getMobNo())
                 .email(seller.getEmail())
                 .build();
     }
