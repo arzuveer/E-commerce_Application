@@ -3,6 +3,7 @@ package com.Bazaar.Spring_Bazaar.Model;
 import com.Bazaar.Spring_Bazaar.Enum.CardType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Builder
 @Table(name = "card")
 public class Card {
     @Id
