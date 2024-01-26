@@ -15,7 +15,7 @@ public class ItemResponseDto {
 
     private String name;
     private  int price;
-    private int quantity;
+   // private int quantity;
     private Category category;
     private ProductStatus productStatus;
 }

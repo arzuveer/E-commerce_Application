@@ -13,7 +13,7 @@ public class OrderConvertor {
         return OrderResponseDto.builder()
                 .productName(product.getName())
                 .deliveryCharge(ordered.getDeliveryCharge())
-                .orderedDate(ordered.getOrderDate())
+                .orderedDate(ordered.getOrderedDate())
                 .totalCost(ordered.getTotalCost())
                 .itemPrice(product.getPrice())
                 .cardUsedForPayment(ordered.getCardUsedForPayment())

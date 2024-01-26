@@ -9,6 +9,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -34,7 +37,7 @@ public class Product {
     @JoinColumn
     Seller seller;
 
-    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
-    Item item;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    List<Item> items = new ArrayList<>();
 
 }

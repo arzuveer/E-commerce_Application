@@ -1,29 +1,37 @@
 package com.Bazaar.Spring_Bazaar.Service;
 
-import com.Bazaar.Spring_Bazaar.Convertor.OrderConvertor;
+
 import com.Bazaar.Spring_Bazaar.Enum.ProductStatus;
 import com.Bazaar.Spring_Bazaar.Exception.CustomerNotFoundException;
 import com.Bazaar.Spring_Bazaar.Exception.InsufficientQuantityException;
 import com.Bazaar.Spring_Bazaar.Exception.ProductNotFoundException;
 import com.Bazaar.Spring_Bazaar.Model.*;
 import com.Bazaar.Spring_Bazaar.Repository.CustomerRepository;
+import com.Bazaar.Spring_Bazaar.Repository.ItemRepository;
 import com.Bazaar.Spring_Bazaar.Repository.ProductRepository;
 import com.Bazaar.Spring_Bazaar.RequestDTO.OrderRequestDto;
-import com.Bazaar.Spring_Bazaar.ResponseDTO.ItemResponseDto;
 import com.Bazaar.Spring_Bazaar.ResponseDTO.OrderResponseDto;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.SimpleMailMessage;
+
 
 @Service
-@Slf4j
 public class OrderService {
+
+    @Autowired
+    JavaMailSender emailSender;
 
     @Autowired
     CustomerRepository customerRepository;
 
     @Autowired
     ProductRepository productRepository;
+
+    @Autowired
+    ItemRepository itemRepository;
+
 
     public OrderResponseDto placeOrder(OrderRequestDto orderRequestDto) throws CustomerNotFoundException, ProductNotFoundException, InsufficientQuantityException {
         Customer customer;
@@ -62,9 +70,11 @@ public class OrderService {
         Item item = new Item();
         item.setRequiredQuantity(orderRequestDto.getRequiredQuantity());
         item.setProduct(product);
-        item.setOrder(order);
+        item.setOrdered(order);
         order.getItems().add(item);
         order.setCustomer(customer);
+
+       // itemRepository.save(item);
 
         int leftQuantity = product.getQuantity()-orderRequestDto.getRequiredQuantity();
         if(leftQuantity<=0)
@@ -73,20 +83,33 @@ public class OrderService {
 
         productRepository.save(product);
 
+
+
         customer.getOrders().add(order);
         Customer savedCustomer = customerRepository.save(customer);
         Ordered savedOrder = savedCustomer.getOrders().get(savedCustomer.getOrders().size()-1);
+        product.getItems().add(savedOrder.getItems().get(0));
 
         //prepare response DTO
         OrderResponseDto orderResponseDto = OrderResponseDto.builder()
                 .productName(product.getName())
-                .orderedDate(savedOrder.getOrderDate())
+                .orderedDate(savedOrder.getOrderedDate())
                 .quantityOrdered(orderRequestDto.getRequiredQuantity())
                 .cardUsedForPayment(cardNo)
                 .itemPrice(product.getPrice())
                 .totalCost(order.getTotalCost())
                 .deliveryCharge(40)
                 .build();
+
+        String text = "Congrats your order with total charges "+ order.getTotalCost()+" has been placed on Spring_Bazaar.!!";
+
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("arzubackend443@gmail.com");
+        message.setTo(customer.getEmail());
+        message.setSubject("Order Placed Notification");
+        message.setText(text);
+        emailSender.send(message);
+
 
 
 

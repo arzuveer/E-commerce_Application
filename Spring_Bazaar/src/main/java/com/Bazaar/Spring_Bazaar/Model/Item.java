@@ -26,11 +26,11 @@ public class Item {
     @JoinColumn
     Cart cart;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn
     Product product;
 
     @ManyToOne
     @JoinColumn
-    Ordered order;
+    Ordered ordered;
 }

@@ -11,7 +11,6 @@ public class ItemConvertor {
         return ItemResponseDto.builder()
                 .name(product.getName())
                 .price(product.getPrice())
-                .quantity(product.getQuantity())
                 .category(product.getCategory())
                 .productStatus(product.getProductStatus())
                 .build();

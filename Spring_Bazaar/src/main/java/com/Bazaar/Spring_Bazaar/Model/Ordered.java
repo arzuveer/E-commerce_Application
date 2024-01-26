@@ -25,7 +25,7 @@ public class Ordered {
     private int id;
 
     @CreationTimestamp
-    private Date orderDate;
+    private Date orderedDate;
 
     private int totalCost;
 
@@ -37,6 +37,6 @@ public class Ordered {
     @JoinColumn
     Customer customer;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "ordered", cascade = CascadeType.ALL)
     List<Item> items= new ArrayList<>();
 }
